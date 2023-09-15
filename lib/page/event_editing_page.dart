@@ -82,14 +82,57 @@ class _EventEditingPageState extends State<EventEditingPage> {
       );
 
   Widget buildDateTimePickers() => Column(
-        children: [buildFrom()],
+        children: [buildFrom(), buildTo()],
       );
 
-  Widget buildFrom() => Row(
+  Widget buildFrom() => buildHeader(
+        header: 'Início',
+        child: Row(
+          children: [
+            Expanded(
+                flex: 3,
+                child: buildDropdownField(
+                    text: Utils.toDate(fromDate),
+                    onClicked: () => pickFromDateTime(pickDate: true))),
+            Expanded(
+                flex: 2,
+                child: SizedBox(
+                  child: buildDropdownField(
+                      text: Utils.toTime(fromDate),
+                      onClicked: () => pickFromDateTime(pickDate: false)),
+                )),
+          ],
+        ),
+      );
+
+  Widget buildTo() => buildHeader(
+        header: 'Fim',
+        child: Row(
+          children: [
+            Expanded(
+                flex: 3,
+                child: buildDropdownField(
+                    text: Utils.toDate(toDate),
+                    onClicked: () => pickToDateTime(pickDate: true))),
+            Expanded(
+                flex: 2,
+                child: SizedBox(
+                  child: buildDropdownField(
+                      text: Utils.toTime(toDate),
+                      onClicked: () => pickToDateTime(pickDate: false)),
+                )),
+          ],
+        ),
+      );
+
+  buildHeader({required String header, required Row child}) => Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Expanded(
-              child: buildDropdownField(
-                  text: Utils.toDate(fromDate), onClicked: () => {})),
+          Text(
+            header,
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+          child
         ],
       );
 
@@ -102,4 +145,104 @@ class _EventEditingPageState extends State<EventEditingPage> {
         trailing: const Icon(Icons.arrow_drop_down_rounded),
         onTap: onClicked,
       );
+
+  Future pickFromDateTime({required bool pickDate}) async {
+    final date = await pickDateTime(fromDate, pickDate: pickDate);
+
+    if (date == null) return null;
+    if (date.isAfter(toDate)) {
+      toDate = DateTime(
+        date.minute,
+        date.hour,
+        date.day,
+        date.month,
+        date.year,
+      );
+    }
+
+    setState(() => fromDate = date);
+  }
+
+  Future pickToDateTime({required bool pickDate}) async {
+    final date = await pickDateTime(toDate, pickDate: pickDate);
+
+    if (date == null) return null;
+    if (date.isAfter(toDate)) {
+      toDate = DateTime(
+        date.minute,
+        date.hour,
+        date.day,
+        date.month,
+        date.year,
+      );
+    }
+
+    setState(() => toDate = date);
+  }
+
+  Future<DateTime?> pickDateTime(
+    DateTime initialDate, {
+    required bool pickDate,
+    DateTime? firstDate,
+  }) async {
+    if (pickDate) {
+      final date = await showDatePicker(
+        context: context,
+        initialDate: initialDate,
+        firstDate: firstDate ?? DateTime.now(),
+        lastDate: firstDate != null
+            ? firstDate.add(const Duration(hours: 3))
+            : DateTime.now().add(const Duration(hours: 3)),
+        builder: (BuildContext context, Widget? child) {
+          return Theme(
+            data: Theme.of(context).copyWith(
+              textTheme: const TextTheme(
+                headlineLarge: TextStyle(fontSize: 35),
+                titleSmall: TextStyle(fontSize: 19),
+                labelLarge: TextStyle(fontSize: 15),
+              ),
+            ),
+            child: child!,
+          );
+        },
+      );
+
+      if (date == null) return null;
+
+      final time =
+          Duration(hours: initialDate.hour, minutes: initialDate.minute);
+
+      return date.add(time);
+    } else {
+      final timeOfDay = await showTimePicker(
+          builder: (BuildContext context, Widget? child) {
+            return Theme(
+              data: Theme.of(context).copyWith(
+                textTheme: const TextTheme(
+                  displayLarge: TextStyle(fontSize: 30),
+                  labelLarge:
+                      TextStyle(fontSize: 30, fontWeight: FontWeight.w100),
+                  labelSmall:
+                      TextStyle(fontSize: 30, fontWeight: FontWeight.w100),
+                ),
+              ),
+              child: child!,
+            );
+          },
+          context: context,
+          initialTime: TimeOfDay.fromDateTime(initialDate));
+
+      if (timeOfDay == null) return null;
+
+      final date = DateTime(
+        initialDate.day,
+        initialDate.month,
+        initialDate.year,
+      );
+
+      final time = Duration(hours: timeOfDay.hour, minutes: timeOfDay.minute);
+
+      return date.add(time);
+    }
+  }
 }

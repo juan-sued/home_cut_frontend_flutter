@@ -110,12 +110,38 @@ class MyApp extends StatelessWidget {
         ),
         darkTheme: ThemeData.dark().copyWith(
             brightness: Brightness.dark,
+
+            //
+            //            === DATE_PICKER ===
+            //
+            datePickerTheme: DatePickerThemeData(
+              dayForegroundColor: MaterialStatePropertyAll(brownLight),
+              rangeSelectionBackgroundColor: Colors.greenAccent,
+            ),
+
+            //
+            //            === TIME_PICKER ===
+            //
+            timePickerTheme: TimePickerThemeData(
+              hourMinuteTextColor: Colors.white,
+              dialHandColor: Colors.greenAccent,
+            ),
+            //
+            //
+            //
             scaffoldBackgroundColor: dark,
             useMaterial3: true,
+            //
+            //            === TOOLTIP ===
+            //
             tooltipTheme: const TooltipThemeData(
               verticalOffset: 48,
               height: 50,
             ),
+
+            //
+            //            === TEXT ===
+            //
             textTheme: TextTheme(
               //displays
               displayLarge: GoogleFonts.bebasNeue(
@@ -165,13 +191,23 @@ class MyApp extends StatelessWidget {
               labelSmall: GoogleFonts.poppins(
                   fontSize: 12, fontWeight: FontWeight.w500, color: grey),
             ),
+            //
+            //             === COLOR_SCHEME ===
+            //
             colorScheme: ColorScheme.fromSeed(
                 brightness: Brightness.dark,
                 seedColor: Colors.white,
                 primary: dark,
                 secondary: brownLight,
                 tertiary: Colors.greenAccent),
+
+            //
+            //             === BUTTON ===
+            //
             buttonTheme: const ButtonThemeData(buttonColor: Colors.greenAccent),
+            //
+            //             === APPBAR ===
+            //
             appBarTheme: AppBarTheme(
                 foregroundColor: brownLight,
                 surfaceTintColor: Colors.transparent,
