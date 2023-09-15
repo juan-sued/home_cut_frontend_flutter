@@ -215,18 +215,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
       return date.add(time);
     } else {
       final timeOfDay = await showTimePicker(
-          builder: (BuildContext context, Widget? child) {
-            return Theme(
-              data: Theme.of(context).copyWith(
-                textTheme: const TextTheme(
-                  displayLarge: TextStyle(fontSize: 40),
-                ),
-              ),
-              child: child!,
-            );
-          },
-          context: context,
-          initialTime: TimeOfDay.fromDateTime(initialDate));
+          context: context, initialTime: TimeOfDay.fromDateTime(initialDate));
 
       if (timeOfDay == null) return null;
 

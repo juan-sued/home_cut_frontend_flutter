@@ -124,7 +124,7 @@ class MyApp extends StatelessWidget {
               hourMinuteTextColor: Colors.white,
               dialHandColor: Colors.greenAccent,
               hourMinuteTextStyle: GoogleFonts.bebasNeue(
-                fontSize: 72,
+                fontSize: 55,
               ),
             ),
             //
