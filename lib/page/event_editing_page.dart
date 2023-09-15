@@ -219,11 +219,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
             return Theme(
               data: Theme.of(context).copyWith(
                 textTheme: const TextTheme(
-                  displayLarge: TextStyle(fontSize: 30),
-                  labelLarge:
-                      TextStyle(fontSize: 30, fontWeight: FontWeight.w100),
-                  labelSmall:
-                      TextStyle(fontSize: 30, fontWeight: FontWeight.w100),
+                  displayLarge: TextStyle(fontSize: 40),
                 ),
               ),
               child: child!,

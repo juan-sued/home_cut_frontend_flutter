@@ -62,11 +62,9 @@ class MyApp extends StatelessWidget {
             //displays
             displayLarge: GoogleFonts.bebasNeue(
               fontSize: 72,
-              fontWeight: FontWeight.bold,
             ),
             displayMedium: GoogleFonts.bebasNeue(
               fontSize: 32,
-              fontWeight: FontWeight.bold,
             ),
 
             displaySmall: GoogleFonts.poppins(
@@ -125,6 +123,9 @@ class MyApp extends StatelessWidget {
             timePickerTheme: TimePickerThemeData(
               hourMinuteTextColor: Colors.white,
               dialHandColor: Colors.greenAccent,
+              hourMinuteTextStyle: GoogleFonts.bebasNeue(
+                fontSize: 72,
+              ),
             ),
             //
             //
