@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'calendar_widget.dart';
 
 class CardsDaysWidget extends StatefulWidget {
   const CardsDaysWidget({super.key});
@@ -33,11 +32,14 @@ class _CardsDaysWidgetState extends State<CardsDaysWidget> {
     return SizedBox(
       width: double.infinity,
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           ...listDays
               .map((day) => CardDayWidget(
                     dayOfWeek: day[0],
                     numberDay: day[1],
+                    // ignore: avoid_print
+                    onPressed: () => {print('tocou no dia: ${day[1]}')},
                   ))
               .toList()
         ],
@@ -47,20 +49,26 @@ class _CardsDaysWidgetState extends State<CardsDaysWidget> {
 }
 
 class CardDayWidget extends StatelessWidget {
-  const CardDayWidget(
-      {super.key, required this.dayOfWeek, required this.numberDay});
+  const CardDayWidget({
+    super.key,
+    required this.dayOfWeek,
+    required this.numberDay,
+    required this.onPressed,
+  });
+
   final String dayOfWeek;
   final String numberDay;
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: OutlinedButton(
-        onPressed: () => {},
+      child: GestureDetector(
+        onTap: onPressed,
         child: Container(
           margin: const EdgeInsets.symmetric(horizontal: 3),
-          padding: const EdgeInsets.all(11),
-          height: 70,
+          padding: const EdgeInsets.all(4),
+          height: 60,
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [
@@ -76,22 +84,8 @@ class CardDayWidget extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Text(
-                  dayOfWeek,
-                  style: const TextStyle(
-                    fontSize: 11,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
-                Text(
-                  numberDay,
-                  style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
+                Text(dayOfWeek, style: Theme.of(context).textTheme.labelSmall),
+                Text(numberDay, style: Theme.of(context).textTheme.labelMedium),
               ],
             ),
           ),

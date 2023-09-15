@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:home_cut/home_page.dart';
+import 'package:home_cut/page/home_page.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -10,7 +11,9 @@ class MyApp extends StatelessWidget {
     Color brownLight = const Color(0xFFDCC5AD);
     Color dark = const Color(0xFF2B2E35);
     Color blue = const Color(0xFF61A4AC);
-    Color brownDark = const Color(0xFF5A3D37);
+    Color grey = const Color(0xFF686c76);
+
+    // Color brownDark = const Color(0xFF5A3D37);
 
     return MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -25,7 +28,18 @@ class MyApp extends StatelessWidget {
         title: 'HomeCut',
         themeMode: ThemeMode.dark,
         theme: ThemeData(
+          useMaterial3: true,
+          brightness: Brightness.light,
+          tooltipTheme: const TooltipThemeData(
+            verticalOffset: 48,
+            height: 50,
+          ),
+          appBarTheme: AppBarTheme(
+              foregroundColor: blue,
+              surfaceTintColor: Colors.transparent,
+              backgroundColor: brownLight),
           scaffoldBackgroundColor: brownLight,
+          buttonTheme: ButtonThemeData(buttonColor: dark),
           primarySwatch: const MaterialColor(0xFFDCC5AD, {
             50: Color(0xFFFFF7F2),
             100: Color(0xFFFFE0CC),
@@ -39,25 +53,129 @@ class MyApp extends StatelessWidget {
             900: Color(0xFF7C3102),
           }),
           colorScheme: ColorScheme.fromSeed(
-            seedColor: brownLight,
-            primary: brownLight,
-            secondary: blue,
+              brightness: Brightness.light,
+              seedColor: Colors.white,
+              primary: brownLight,
+              secondary: dark,
+              tertiary: blue),
+          textTheme: TextTheme(
+            //displays
+            displayLarge: GoogleFonts.bebasNeue(
+              fontSize: 72,
+              fontWeight: FontWeight.bold,
+            ),
+            displayMedium: GoogleFonts.bebasNeue(
+              fontSize: 32,
+              fontWeight: FontWeight.bold,
+            ),
+
+            displaySmall: GoogleFonts.poppins(
+              fontSize: 12,
+              fontWeight: FontWeight.bold,
+            ),
+
+            //headers
+
+            headlineLarge: GoogleFonts.poppins(
+              fontSize: 42,
+            ),
+            headlineMedium: GoogleFonts.poppins(
+              fontSize: 32,
+            ),
+            headlineSmall: GoogleFonts.poppins(
+              fontSize: 20,
+            ),
+            //titles
+
+            titleLarge: GoogleFonts.poppins(
+              fontSize: 32,
+            ),
+            titleMedium: GoogleFonts.poppins(
+              fontSize: 22,
+            ),
+            titleSmall: GoogleFonts.poppins(
+              fontSize: 18,
+            ),
+            //bodys
+            bodyLarge: GoogleFonts.poppins(fontSize: 16),
+            bodyMedium: GoogleFonts.poppins(fontSize: 14),
+            bodySmall: GoogleFonts.poppins(fontSize: 12),
+
+            //labels
+            labelLarge: GoogleFonts.poppins(fontSize: 24),
+            labelMedium: GoogleFonts.poppins(fontSize: 16, color: grey),
+            labelSmall: GoogleFonts.poppins(
+                fontSize: 9, fontWeight: FontWeight.w500, color: grey),
           ),
         ),
         darkTheme: ThemeData.dark().copyWith(
+            brightness: Brightness.dark,
             scaffoldBackgroundColor: dark,
             useMaterial3: true,
-            colorScheme: ColorScheme.fromSeed(
-              seedColor: brownLight,
-              primary: brownLight,
-              secondary: blue,
+            tooltipTheme: const TooltipThemeData(
+              verticalOffset: 48,
+              height: 50,
             ),
-            appBarTheme: const AppBarTheme(
-                foregroundColor: Color(0xFFDCC5AD),
+            textTheme: TextTheme(
+              //displays
+              displayLarge: GoogleFonts.bebasNeue(
+                fontSize: 72,
+                fontWeight: FontWeight.bold,
+              ),
+              displayMedium: GoogleFonts.bebasNeue(
+                fontSize: 32,
+                fontWeight: FontWeight.bold,
+              ),
+
+              displaySmall: GoogleFonts.poppins(
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+              ),
+              //headers
+
+              headlineLarge: GoogleFonts.poppins(
+                fontSize: 42,
+              ),
+              headlineMedium: GoogleFonts.poppins(
+                fontSize: 22,
+              ),
+              headlineSmall: GoogleFonts.bebasNeue(
+                fontSize: 16,
+              ),
+
+              //titles
+
+              titleLarge: GoogleFonts.poppins(
+                fontSize: 32,
+              ),
+              titleMedium: GoogleFonts.poppins(
+                fontSize: 22,
+              ),
+              titleSmall: GoogleFonts.poppins(
+                fontSize: 18,
+              ),
+              //bodys
+              bodyLarge: GoogleFonts.poppins(fontSize: 16),
+              bodyMedium: GoogleFonts.poppins(fontSize: 14),
+              bodySmall: GoogleFonts.poppins(fontSize: 12),
+
+              //labels
+              labelLarge: GoogleFonts.poppins(fontSize: 24),
+              labelMedium: GoogleFonts.poppins(fontSize: 16, color: grey),
+              labelSmall: GoogleFonts.poppins(
+                  fontSize: 12, fontWeight: FontWeight.w500, color: grey),
+            ),
+            colorScheme: ColorScheme.fromSeed(
+                brightness: Brightness.dark,
+                seedColor: Colors.white,
+                primary: dark,
+                secondary: brownLight,
+                tertiary: Colors.greenAccent),
+            buttonTheme: const ButtonThemeData(buttonColor: Colors.greenAccent),
+            appBarTheme: AppBarTheme(
+                foregroundColor: brownLight,
                 surfaceTintColor: Colors.transparent,
-                backgroundColor: Color(
-                  0xFF2B2E35,
-                ))),
+                backgroundColor: dark)),
         home: const HomePage(title: 'HomeCut'));
   }
 }

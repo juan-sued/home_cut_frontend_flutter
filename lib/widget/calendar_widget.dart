@@ -35,18 +35,23 @@ class _CalendarWidgetState extends State<CalendarWidget> {
         cellEndPadding: 5,
         viewHeaderHeight: 0,
         headerHeight: 0,
-        headerStyle: CalendarHeaderStyle(
-            textStyle: TextStyle(color: Theme.of(context).colorScheme.primary)),
+        todayHighlightColor: Theme.of(context).colorScheme.tertiary,
+        showCurrentTimeIndicator: true,
         timeSlotViewSettings: TimeSlotViewSettings(
-          allDayPanelColor: Theme.of(context).colorScheme.secondary,
-          timeFormat: 'HH:mm',
-          timeIntervalHeight: 150,
-          timeTextStyle: TextStyle(
-            fontSize: 13,
-            fontWeight: FontWeight.w300,
-            color: Theme.of(context).colorScheme.primary,
-          ),
-        ),
+            allDayPanelColor: Theme.of(context).colorScheme.secondary,
+            timeFormat: 'HH:mm',
+            timeIntervalHeight: 150,
+            timeTextStyle: Theme.of(context).textTheme.labelMedium!.copyWith(
+              color: Theme.of(context).colorScheme.secondary,
+              shadows: [
+                Shadow(
+                  blurRadius: 3.0, // Define o raio do desfoque da sombra
+                  color:
+                      Colors.black.withOpacity(0.3), // Define a cor da sombra
+                  offset: const Offset(1, 1), // Define o deslocamento da sombra
+                ),
+              ],
+            )),
       ),
     );
   }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:home_cut/widget/layout/bottom_bar_buttons.dart';
 import 'package:home_cut/widget/calendar_widget.dart';
-import 'package:home_cut/widget/cards_days_widget.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.title});
@@ -19,17 +19,17 @@ class _HomePageState extends State<HomePage> {
         title: Text(widget.title),
       ),
       body: SafeArea(
-        child: Container(
-          padding: const EdgeInsets.all(4),
-          child: const Column(
-            children: [CardsDaysWidget(), CalendarWidget()],
-          ),
+        child: Stack(
+          children: [
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: const Column(
+                children: [CardsDaysWidget(), CalendarWidget()],
+              ),
+            ),
+            const BottomBarButtons()
+          ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => {},
-        tooltip: 'Atualiza os segundos',
-        child: const Icon(Icons.add),
       ),
     );
   }
