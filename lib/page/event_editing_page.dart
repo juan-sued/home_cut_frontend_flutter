@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:home_cut/model/event.dart';
+import 'package:home_cut/provider/event_provider.dart';
 import 'package:home_cut/utils.dart';
+import 'package:home_cut/widget/shared/button_with_icon.dart';
+import 'package:provider/provider.dart';
 
 class EventEditingPage extends StatefulWidget {
-  const EventEditingPage({super.key, this.event});
+  const EventEditingPage({super.key, this.event, required this.pageController});
 
   final Event? event;
+  final PageController pageController;
 
   @override
   State<EventEditingPage> createState() => _EventEditingPageState();
@@ -16,6 +20,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
   final titleController = TextEditingController();
   late DateTime fromDate;
   late DateTime toDate;
+
   @override
   void initState() {
     super.initState();
@@ -35,46 +40,60 @@ class _EventEditingPageState extends State<EventEditingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-          centerTitle: true,
-          leading: const CloseButton(),
-          titleTextStyle: TextStyle(shadows: [
-            Shadow(
-              blurRadius: 3.0, // Define o raio do desfoque da sombra
-              color: Colors.black.withOpacity(0.3), // Define a cor da sombra
-              offset: const Offset(1, 1), // Define o deslocamento da sombra
-            ),
-          ]),
-          title: Text('Agendamento',
-              style: Theme.of(context)
-                  .textTheme
-                  .headlineMedium!
-                  .copyWith(color: Theme.of(context).colorScheme.secondary)),
-        ),
-        body: SingleChildScrollView(
-          padding: const EdgeInsets.all(16),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                buildTitle(),
-                const SizedBox(
-                  height: 12,
-                ),
-                buildDateTimePickers()
-              ],
-            ),
+      appBar: AppBar(
+        elevation: 0,
+        centerTitle: true,
+        leading: const CloseButton(),
+        titleTextStyle: TextStyle(shadows: [
+          Shadow(
+            blurRadius: 3.0,
+            color: Colors.black.withOpacity(0.3),
+            offset: const Offset(1, 1),
           ),
-        ));
+        ]),
+        title: Text(
+          'Agendamento',
+          style: Theme.of(context)
+              .textTheme
+              .headlineMedium!
+              .copyWith(color: Theme.of(context).colorScheme.secondary),
+        ),
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              buildTitle(),
+              const SizedBox(
+                height: 12,
+              ),
+              buildDateTimePickers(),
+              Row(
+                children: [
+                  ButtonWithIcon(
+                    buttonText: 'Agendar',
+                    tooltipMessage: 'Criar agendamento',
+                    isIconLeft: true,
+                    icon: Icons.calendar_month_rounded,
+                    onPressed: saveForm,
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   Widget buildTitle() => TextFormField(
-        style: const TextStyle(fontSize: 24),
+        style: Theme.of(context).textTheme.titleMedium,
         decoration: const InputDecoration(
             border: UnderlineInputBorder(), hintText: 'Adicionar título'),
-        onFieldSubmitted: (_) {},
+        onFieldSubmitted: (_) => saveForm(),
         validator: (title) => title != null && title.isEmpty
             ? 'O título não pode estar vazio!'
             : null,
@@ -90,17 +109,21 @@ class _EventEditingPageState extends State<EventEditingPage> {
         child: Row(
           children: [
             Expanded(
-                flex: 3,
-                child: buildDropdownField(
-                    text: Utils.toDate(fromDate),
-                    onClicked: () => pickFromDateTime(pickDate: true))),
+              flex: 3,
+              child: buildDropdownField(
+                text: Utils.toDate(fromDate),
+                onClicked: () => pickFromDateTime(pickDate: true),
+              ),
+            ),
             Expanded(
-                flex: 2,
-                child: SizedBox(
-                  child: buildDropdownField(
-                      text: Utils.toTime(fromDate),
-                      onClicked: () => pickFromDateTime(pickDate: false)),
-                )),
+              flex: 2,
+              child: SizedBox(
+                child: buildDropdownField(
+                  text: Utils.toTime(fromDate),
+                  onClicked: () => pickFromDateTime(pickDate: false),
+                ),
+              ),
+            ),
           ],
         ),
       );
@@ -110,17 +133,21 @@ class _EventEditingPageState extends State<EventEditingPage> {
         child: Row(
           children: [
             Expanded(
-                flex: 3,
-                child: buildDropdownField(
-                    text: Utils.toDate(toDate),
-                    onClicked: () => pickToDateTime(pickDate: true))),
+              flex: 3,
+              child: buildDropdownField(
+                text: Utils.toDate(toDate),
+                onClicked: () => pickToDateTime(pickDate: true),
+              ),
+            ),
             Expanded(
-                flex: 2,
-                child: SizedBox(
-                  child: buildDropdownField(
-                      text: Utils.toTime(toDate),
-                      onClicked: () => pickToDateTime(pickDate: false)),
-                )),
+              flex: 2,
+              child: SizedBox(
+                child: buildDropdownField(
+                  text: Utils.toTime(toDate),
+                  onClicked: () => pickToDateTime(pickDate: false),
+                ),
+              ),
+            ),
           ],
         ),
       );
@@ -132,7 +159,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
             header,
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
-          child
+          child,
         ],
       );
 
@@ -189,22 +216,8 @@ class _EventEditingPageState extends State<EventEditingPage> {
       final date = await showDatePicker(
         context: context,
         initialDate: initialDate,
-        firstDate: firstDate ?? DateTime.now(),
-        lastDate: firstDate != null
-            ? firstDate.add(const Duration(hours: 3))
-            : DateTime.now().add(const Duration(hours: 3)),
-        builder: (BuildContext context, Widget? child) {
-          return Theme(
-            data: Theme.of(context).copyWith(
-              textTheme: const TextTheme(
-                headlineLarge: TextStyle(fontSize: 35),
-                titleSmall: TextStyle(fontSize: 19),
-                labelLarge: TextStyle(fontSize: 15),
-              ),
-            ),
-            child: child!,
-          );
-        },
+        firstDate: firstDate ?? DateTime(2023, 9),
+        lastDate: DateTime(2101),
       );
 
       if (date == null) return null;
@@ -215,7 +228,9 @@ class _EventEditingPageState extends State<EventEditingPage> {
       return date.add(time);
     } else {
       final timeOfDay = await showTimePicker(
-          context: context, initialTime: TimeOfDay.fromDateTime(initialDate));
+        context: context,
+        initialTime: TimeOfDay.fromDateTime(initialDate),
+      );
 
       if (timeOfDay == null) return null;
 
@@ -228,6 +243,30 @@ class _EventEditingPageState extends State<EventEditingPage> {
       final time = Duration(hours: timeOfDay.hour, minutes: timeOfDay.minute);
 
       return date.add(time);
+    }
+  }
+
+  Future saveForm() async {
+    final isValid = _formKey.currentState!.validate();
+
+    if (isValid) {
+      final event = Event(
+        title: titleController.text,
+        from: fromDate,
+        to: toDate,
+        description: 'Descrição',
+        isAllDay: false,
+      );
+
+      final provider = Provider.of<EventProvider>(context, listen: false);
+
+      provider.addEvent(event);
+
+      widget.pageController.animateToPage(
+        0,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
     }
   }
 }

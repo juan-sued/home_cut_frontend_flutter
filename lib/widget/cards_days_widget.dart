@@ -62,6 +62,8 @@ class CardDayWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ThemeData theme = Theme.of(context);
+
     return Expanded(
       child: GestureDetector(
         onTap: onPressed,
@@ -72,7 +74,7 @@ class CardDayWidget extends StatelessWidget {
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                Theme.of(context).colorScheme.primary,
+                theme.colorScheme.secondary,
                 Colors.brown.shade500,
               ],
               begin: Alignment.topLeft,
@@ -84,8 +86,8 @@ class CardDayWidget extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Text(dayOfWeek, style: Theme.of(context).textTheme.labelSmall),
-                Text(numberDay, style: Theme.of(context).textTheme.labelMedium),
+                Text(dayOfWeek, style: theme.textTheme.labelSmall),
+                Text(numberDay, style: theme.textTheme.labelMedium),
               ],
             ),
           ),

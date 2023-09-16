@@ -2,21 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:home_cut/widget/layout/bottom_bar_buttons.dart';
 import 'package:home_cut/widget/calendar_widget.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key, required this.title});
+class HomePage extends StatelessWidget {
+  const HomePage(
+      {super.key, required this.title, required this.pageController});
   final String title;
+  final PageController pageController;
 
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawerEnableOpenDragGesture: true,
       appBar: AppBar(
         elevation: 0,
-        title: Text(widget.title),
+        title: Text(title),
+      ),
+      drawer: Drawer(
+        backgroundColor: Theme.of(context).colorScheme.background,
       ),
       body: SafeArea(
         child: Stack(
@@ -27,7 +28,9 @@ class _HomePageState extends State<HomePage> {
                 children: [CardsDaysWidget(), CalendarWidget()],
               ),
             ),
-            const BottomBarButtons()
+            BottomBarButtons(
+              pageController: pageController,
+            )
           ],
         ),
       ),

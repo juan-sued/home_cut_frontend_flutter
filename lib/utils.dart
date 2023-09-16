@@ -8,7 +8,7 @@ class Utils {
   }
 
   static String toDate(DateTime dateTime) {
-    final date = DateFormat.yMMMEd().format(dateTime);
+    final date = DateFormat('EEEEEE, dd MMMM', 'pt_BR').format(dateTime);
     return date;
   }
 

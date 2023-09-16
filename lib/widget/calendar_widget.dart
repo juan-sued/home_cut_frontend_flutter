@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:home_cut/model/event_data_source.dart';
+import 'package:home_cut/provider/event_provider.dart';
+import 'package:home_cut/widget/tasks_widget.dart';
+import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 export 'cards_days_widget.dart';
 
@@ -20,9 +24,19 @@ class _CalendarWidgetState extends State<CalendarWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final events = Provider.of<EventProvider>(context).events;
+
     return Expanded(
       child: SfCalendar(
         view: CalendarView.day,
+        onLongPress: (details) {
+          final provider = Provider.of<EventProvider>(context, listen: false);
+          provider.setDate(details.date!);
+
+          showModalBottomSheet(
+              context: context, builder: (context) => const TasksWidget());
+        },
+        dataSource: EventDataSource(events),
         selectionDecoration: BoxDecoration(
             border: Border.all(
               // Define uma borda

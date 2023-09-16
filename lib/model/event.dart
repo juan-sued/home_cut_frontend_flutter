@@ -13,6 +13,6 @@ class Event {
       required this.description,
       required this.from,
       required this.to,
-      this.backgroundColor = Colors.greenAccent,
+      this.backgroundColor = const Color.fromARGB(255, 52, 87, 70),
       this.isAllDay = false});
 }

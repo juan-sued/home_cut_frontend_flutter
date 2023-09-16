@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:home_cut/page/event_editing_page.dart';
-import 'package:home_cut/widget/service/page_builders.dart';
+import 'package:home_cut/widget/shared/button_with_icon.dart';
 
 class BottomBarButtons extends StatelessWidget {
-  const BottomBarButtons({super.key});
+  const BottomBarButtons({super.key, required this.pageController});
+
+  final PageController pageController;
 
   @override
   Widget build(BuildContext context) {
+    ThemeData theme = Theme.of(context);
     return Positioned(
       left: 0,
       right: 0,
@@ -17,8 +19,8 @@ class BottomBarButtons extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Tooltip(
-              height: Theme.of(context).tooltipTheme.height,
-              verticalOffset: Theme.of(context).tooltipTheme.verticalOffset,
+              height: theme.tooltipTheme.height,
+              verticalOffset: theme.tooltipTheme.verticalOffset,
               message: 'Fechar agenda',
               child: Container(
                 margin: const EdgeInsetsDirectional.only(end: 10),
@@ -31,7 +33,7 @@ class BottomBarButtons extends StatelessWidget {
                   style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all(Colors.white),
                       overlayColor: MaterialStateProperty.all(
-                          Theme.of(context).colorScheme.secondary),
+                          theme.colorScheme.background.withOpacity(0.2)),
                       shape: MaterialStateProperty.all(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
@@ -42,50 +44,22 @@ class BottomBarButtons extends StatelessWidget {
                   child: Icon(
                     Icons.lock_rounded,
                     size: 30,
-                    color: Theme.of(context).colorScheme.primary,
+                    color: theme.colorScheme.background,
                   ),
                 ),
               ),
             ),
-            Expanded(
-              child: Tooltip(
-                height: Theme.of(context).tooltipTheme.height,
-                verticalOffset: Theme.of(context).tooltipTheme.verticalOffset,
-                message: 'Criar agendamento',
-                child: ElevatedButton(
-                  onPressed: () => Navigator.of(context)
-                      .push(overlapPageRouteBuilder(const EventEditingPage())),
-                  style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(
-                          Theme.of(context).colorScheme.tertiary),
-                      overlayColor: MaterialStateProperty.all(
-                          Theme.of(context).colorScheme.secondary),
-                      shape: MaterialStateProperty.all(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                      padding: const MaterialStatePropertyAll(
-                          EdgeInsetsDirectional.all(10))),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Text('Novo Agendamento',
-                          style: Theme.of(context)
-                              .textTheme
-                              .labelMedium!
-                              .copyWith(
-                                  color: Theme.of(context).colorScheme.primary,
-                                  fontWeight: FontWeight.bold)),
-                      const Icon(
-                        Icons.keyboard_double_arrow_right_rounded,
-                        size: 30,
-                      ),
-                    ],
-                  ),
-                ),
+            ButtonWithIcon(
+              buttonText: 'Novo Agendamento',
+              tooltipMessage: 'Criar agendamento',
+              icon: Icons.keyboard_double_arrow_right_rounded,
+              isIconLeft: false,
+              onPressed: () => pageController.animateToPage(
+                1,
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.easeInOut,
               ),
-            ),
+            )
           ],
         ),
       ),

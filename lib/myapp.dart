@@ -1,21 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:home_cut/page/home_page.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:home_cut/page/page_view.dart';
+import 'package:home_cut/provider/event_provider.dart';
+import 'package:provider/provider.dart';
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({super.key});
+  final PageController _pageController = PageController(initialPage: 0);
 
   @override
   Widget build(BuildContext context) {
     Color brownLight = const Color(0xFFDCC5AD);
     Color dark = const Color(0xFF2B2E35);
     Color blue = const Color(0xFF61A4AC);
-    Color grey = const Color(0xFF686c76);
+    Color grey = Color(0x80d2d2d2);
+    Color green = Colors.greenAccent;
 
     // Color brownDark = const Color(0xFF5A3D37);
 
-    return MaterialApp(
+    return ChangeNotifierProvider(
+      create: (context) => EventProvider(),
+      child: MaterialApp(
+        home: PageViewWidget(
+          pageController: _pageController,
+        ),
         debugShowCheckedModeBanner: false,
         localizationsDelegates: const [
           GlobalMaterialLocalizations.delegate,
@@ -114,7 +123,47 @@ class MyApp extends StatelessWidget {
             //
             datePickerTheme: DatePickerThemeData(
               dayForegroundColor: MaterialStatePropertyAll(brownLight),
-              rangeSelectionBackgroundColor: Colors.greenAccent,
+              headerHeadlineStyle:
+                  GoogleFonts.bebasNeue(fontSize: 45, shadows: [
+                Shadow(
+                  blurRadius: 10, // Define o raio do desfoque da sombra
+                  color:
+                      Colors.black.withOpacity(0.1), // Define a cor da sombra
+                  offset: const Offset(2, 2), // Define o deslocamento da sombra
+                ),
+                Shadow(
+                  blurRadius: 10,
+                  color: Colors.black.withOpacity(0.1),
+                  offset: const Offset(-2, -2),
+                ),
+              ]),
+              headerForegroundColor: brownLight,
+              weekdayStyle: TextStyle(color: grey),
+              headerBackgroundColor: Colors.greenAccent.withOpacity(0.1),
+              rangePickerHeaderHeadlineStyle: TextStyle(color: green),
+              headerHelpStyle: TextStyle(color: brownLight),
+              dayOverlayColor:
+                  MaterialStateProperty.all(green.withOpacity(0.1)),
+              dayStyle: GoogleFonts.poppins(fontSize: 16, shadows: [
+                Shadow(
+                  blurRadius: 10, // Define o raio do desfoque da sombra
+                  color:
+                      Colors.black.withOpacity(0.2), // Define a cor da sombra
+                  offset: const Offset(2, 2), // Define o deslocamento da sombra
+                ),
+                Shadow(
+                  blurRadius: 10,
+                  color: Colors.black.withOpacity(0.2),
+                  offset: const Offset(-2, -2),
+                ),
+              ]),
+              yearOverlayColor: MaterialStateProperty.all(green),
+              todayForegroundColor: MaterialStateProperty.all(green),
+              todayBackgroundColor:
+                  MaterialStateProperty.all(Colors.transparent),
+              yearForegroundColor: MaterialStateProperty.all(brownLight),
+              inputDecorationTheme: const InputDecorationTheme(
+                  activeIndicatorBorder: BorderSide(color: Colors.grey)),
             ),
 
             //
@@ -122,7 +171,7 @@ class MyApp extends StatelessWidget {
             //
             timePickerTheme: TimePickerThemeData(
               hourMinuteTextColor: Colors.white,
-              dialHandColor: Colors.greenAccent,
+              dialHandColor: green,
               hourMinuteTextStyle: GoogleFonts.bebasNeue(
                 fontSize: 55,
               ),
@@ -188,24 +237,31 @@ class MyApp extends StatelessWidget {
 
               //labels
               labelLarge: GoogleFonts.poppins(fontSize: 24),
-              labelMedium: GoogleFonts.poppins(fontSize: 16, color: grey),
+              labelMedium:
+                  GoogleFonts.poppins(fontSize: 16, color: Colors.white),
               labelSmall: GoogleFonts.poppins(
-                  fontSize: 12, fontWeight: FontWeight.w500, color: grey),
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.white),
             ),
             //
             //             === COLOR_SCHEME ===
             //
             colorScheme: ColorScheme.fromSeed(
-                brightness: Brightness.dark,
-                seedColor: Colors.white,
-                primary: dark,
-                secondary: brownLight,
-                tertiary: Colors.greenAccent),
+              brightness: Brightness.dark,
+              seedColor: Colors.white,
+              primary: grey,
+              secondary: brownLight,
+              tertiary: green,
+              background: dark,
+            ),
 
             //
             //             === BUTTON ===
             //
-            buttonTheme: const ButtonThemeData(buttonColor: Colors.greenAccent),
+            buttonTheme: ButtonThemeData(
+              buttonColor: green,
+            ),
             //
             //             === APPBAR ===
             //
@@ -213,6 +269,7 @@ class MyApp extends StatelessWidget {
                 foregroundColor: brownLight,
                 surfaceTintColor: Colors.transparent,
                 backgroundColor: dark)),
-        home: const HomePage(title: 'HomeCut'));
+      ),
+    );
   }
 }
