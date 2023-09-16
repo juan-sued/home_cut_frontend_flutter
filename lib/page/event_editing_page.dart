@@ -6,7 +6,11 @@ import 'package:home_cut/widget/shared/button_with_icon.dart';
 import 'package:provider/provider.dart';
 
 class EventEditingPage extends StatefulWidget {
-  const EventEditingPage({super.key, this.event, required this.pageController});
+  const EventEditingPage({
+    Key? key,
+    this.event,
+    required this.pageController,
+  }) : super(key: key);
 
   final Event? event;
   final PageController pageController;
@@ -43,7 +47,13 @@ class _EventEditingPageState extends State<EventEditingPage> {
       appBar: AppBar(
         elevation: 0,
         centerTitle: true,
-        leading: const CloseButton(),
+        leading: CloseButton(
+          onPressed: () => widget.pageController.animateToPage(
+            0,
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeInOut,
+          ),
+        ),
         titleTextStyle: TextStyle(shadows: [
           Shadow(
             blurRadius: 3.0,
@@ -179,11 +189,11 @@ class _EventEditingPageState extends State<EventEditingPage> {
     if (date == null) return null;
     if (date.isAfter(toDate)) {
       toDate = DateTime(
-        date.minute,
-        date.hour,
-        date.day,
-        date.month,
         date.year,
+        date.month,
+        date.day,
+        toDate.hour,
+        toDate.minute,
       );
     }
 
@@ -194,13 +204,13 @@ class _EventEditingPageState extends State<EventEditingPage> {
     final date = await pickDateTime(toDate, pickDate: pickDate);
 
     if (date == null) return null;
-    if (date.isAfter(toDate)) {
+    if (date.isBefore(fromDate)) {
       toDate = DateTime(
-        date.minute,
+        fromDate.year,
+        fromDate.month,
+        fromDate.day,
         date.hour,
-        date.day,
-        date.month,
-        date.year,
+        date.minute,
       );
     }
 
@@ -216,8 +226,8 @@ class _EventEditingPageState extends State<EventEditingPage> {
       final date = await showDatePicker(
         context: context,
         initialDate: initialDate,
-        firstDate: firstDate ?? DateTime(2023, 9),
-        lastDate: DateTime(2101),
+        firstDate: firstDate ?? DateTime.now(),
+        lastDate: DateTime.now().add(const Duration(days: 365 * 100)),
       );
 
       if (date == null) return null;
@@ -235,9 +245,9 @@ class _EventEditingPageState extends State<EventEditingPage> {
       if (timeOfDay == null) return null;
 
       final date = DateTime(
-        initialDate.day,
-        initialDate.month,
         initialDate.year,
+        initialDate.month,
+        initialDate.day,
       );
 
       final time = Duration(hours: timeOfDay.hour, minutes: timeOfDay.minute);

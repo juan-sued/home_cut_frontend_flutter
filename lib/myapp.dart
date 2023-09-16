@@ -121,6 +121,7 @@ class MyApp extends StatelessWidget {
             //
             //            === DATE_PICKER ===
             //
+
             datePickerTheme: DatePickerThemeData(
               dayForegroundColor: MaterialStatePropertyAll(brownLight),
               headerHeadlineStyle:
@@ -228,7 +229,7 @@ class MyApp extends StatelessWidget {
                 fontSize: 22,
               ),
               titleSmall: GoogleFonts.poppins(
-                fontSize: 18,
+                fontSize: 16,
               ),
               //bodys
               bodyLarge: GoogleFonts.poppins(fontSize: 16),
