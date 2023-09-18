@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:home_cut/model/event_data_source.dart';
+import 'package:home_cut/page/event_details_page.dart';
+import 'package:home_cut/source/event_data_source.dart';
 import 'package:home_cut/provider/event_provider.dart';
+import 'package:home_cut/widget/service/appointment_builder.dart';
 import 'package:home_cut/widget/tasks_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
@@ -16,18 +18,23 @@ class CalendarWidget extends StatefulWidget {
 class _CalendarWidgetState extends State<CalendarWidget> {
   DateTime _currentDate = DateTime.now();
 
-  void _updateDate() {
-    setState(() {
-      _currentDate = _currentDate.add(const Duration(days: 1));
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
+    ThemeData theme = Theme.of(context);
+
     final events = Provider.of<EventProvider>(context).events;
 
     return Expanded(
       child: SfCalendar(
+        selectionDecoration: BoxDecoration(
+          color: theme.colorScheme.secondary.withOpacity(0.1),
+          border: Border.all(
+            color: theme.colorScheme.secondary,
+            width: 1,
+          ),
+          borderRadius: const BorderRadius.all(Radius.circular(12)),
+          shape: BoxShape.rectangle,
+        ),
         view: CalendarView.day,
         onLongPress: (details) {
           final provider = Provider.of<EventProvider>(context, listen: false);
@@ -36,14 +43,8 @@ class _CalendarWidgetState extends State<CalendarWidget> {
           showModalBottomSheet(
               context: context, builder: (context) => const TasksWidget());
         },
+        appointmentBuilder: appointmentBuilder,
         dataSource: EventDataSource(events),
-        selectionDecoration: BoxDecoration(
-            border: Border.all(
-              // Define uma borda
-              color: Theme.of(context).colorScheme.secondary,
-              width: 2.0,
-            ),
-            borderRadius: const BorderRadius.all(Radius.circular(4))),
         initialSelectedDate: _currentDate,
         cellBorderColor: Colors.transparent,
         cellEndPadding: 5,
@@ -59,13 +60,22 @@ class _CalendarWidgetState extends State<CalendarWidget> {
               color: Theme.of(context).colorScheme.secondary,
               shadows: [
                 Shadow(
-                  blurRadius: 3.0, // Define o raio do desfoque da sombra
-                  color:
-                      Colors.black.withOpacity(0.3), // Define a cor da sombra
-                  offset: const Offset(1, 1), // Define o deslocamento da sombra
+                  blurRadius: 3.0,
+                  color: Colors.black.withOpacity(0.3),
+                  offset: const Offset(1, 1),
                 ),
               ],
             )),
+        onTap: (details) {
+          if (details.appointments == null) return;
+
+          final event = details.appointments!.first;
+
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => EventDetailsPage(event: event)));
+
+          //pagina de detalhes
+        },
       ),
     );
   }

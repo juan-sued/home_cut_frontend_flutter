@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:home_cut/model/event.dart';
 import 'package:home_cut/provider/event_provider.dart';
+import 'package:home_cut/provider/page_controller_provider.dart';
 import 'package:home_cut/utils.dart';
+import 'package:home_cut/widget/layout/basic_app_bar.dart';
 import 'package:home_cut/widget/shared/button_with_icon.dart';
 import 'package:provider/provider.dart';
 
@@ -9,11 +11,9 @@ class EventEditingPage extends StatefulWidget {
   const EventEditingPage({
     Key? key,
     this.event,
-    required this.pageController,
   }) : super(key: key);
 
   final Event? event;
-  final PageController pageController;
 
   @override
   State<EventEditingPage> createState() => _EventEditingPageState();
@@ -31,7 +31,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
 
     if (widget.event == null) {
       fromDate = DateTime.now();
-      toDate = DateTime.now().add(const Duration(hours: 2));
+      toDate = DateTime.now().add(const Duration(hours: 1));
     }
   }
 
@@ -43,32 +43,19 @@ class _EventEditingPageState extends State<EventEditingPage> {
 
   @override
   Widget build(BuildContext context) {
+    final pageController =
+        Provider.of<PageControllerProvider>(context, listen: false)
+            .pageController;
+
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        centerTitle: true,
-        leading: CloseButton(
-          onPressed: () => widget.pageController.animateToPage(
-            0,
-            duration: const Duration(milliseconds: 300),
-            curve: Curves.easeInOut,
-          ),
-        ),
-        titleTextStyle: TextStyle(shadows: [
-          Shadow(
-            blurRadius: 3.0,
-            color: Colors.black.withOpacity(0.3),
-            offset: const Offset(1, 1),
-          ),
-        ]),
-        title: Text(
-          'Agendamento',
-          style: Theme.of(context)
-              .textTheme
-              .headlineMedium!
-              .copyWith(color: Theme.of(context).colorScheme.secondary),
-        ),
-      ),
+      appBar: buildAppBar(
+          context,
+          () => pageController.animateToPage(
+                0,
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.easeInOut,
+              ),
+          'Agendamento'),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Form(
@@ -269,10 +256,12 @@ class _EventEditingPageState extends State<EventEditingPage> {
       );
 
       final provider = Provider.of<EventProvider>(context, listen: false);
-
+      final pageController =
+          Provider.of<PageControllerProvider>(context, listen: false)
+              .pageController;
       provider.addEvent(event);
 
-      widget.pageController.animateToPage(
+      pageController.animateToPage(
         0,
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeInOut,

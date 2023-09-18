@@ -3,10 +3,7 @@ import 'package:home_cut/widget/layout/bottom_bar_buttons.dart';
 import 'package:home_cut/widget/calendar_widget.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage(
-      {super.key, required this.title, required this.pageController});
-  final String title;
-  final PageController pageController;
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +11,7 @@ class HomePage extends StatelessWidget {
       drawerEnableOpenDragGesture: true,
       appBar: AppBar(
         elevation: 0,
-        title: Text(title),
+        title: Text('HomeCut'),
       ),
       drawer: Drawer(
         backgroundColor: Theme.of(context).colorScheme.background,
@@ -23,14 +20,12 @@ class HomePage extends StatelessWidget {
         child: Stack(
           children: [
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.only(left: 16, right: 16, bottom: 50),
               child: const Column(
                 children: [CardsDaysWidget(), CalendarWidget()],
               ),
             ),
-            BottomBarButtons(
-              pageController: pageController,
-            )
+            BottomBarButtons()
           ],
         ),
       ),

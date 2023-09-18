@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:home_cut/provider/page_controller_provider.dart';
 import 'package:home_cut/widget/shared/button_with_icon.dart';
+import 'package:provider/provider.dart';
 
 class BottomBarButtons extends StatelessWidget {
-  const BottomBarButtons({super.key, required this.pageController});
-
-  final PageController pageController;
+  const BottomBarButtons({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final pageController =
+        Provider.of<PageControllerProvider>(context, listen: false)
+            .pageController;
     ThemeData theme = Theme.of(context);
     return Positioned(
       left: 0,
       right: 0,
       bottom: 0,
       child: Container(
+        decoration: BoxDecoration(color: Colors.transparent),
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

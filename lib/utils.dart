@@ -2,8 +2,8 @@ import 'package:intl/intl.dart';
 
 class Utils {
   static String toDateTime(DateTime dateTime) {
-    final date = DateFormat.yMMMEd().format(dateTime);
-    final time = DateFormat.Hm().format(dateTime);
+    final date = toDate(dateTime);
+    final time = toTime(dateTime);
     return '$date $time';
   }
 
@@ -13,7 +13,7 @@ class Utils {
   }
 
   static String toTime(DateTime dateTime) {
-    final time = DateFormat.Hm().format(dateTime);
+    final time = DateFormat.Hm('pt_BR').format(dateTime);
     return time;
   }
 }

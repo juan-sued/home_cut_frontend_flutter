@@ -7,7 +7,6 @@ import 'package:provider/provider.dart';
 
 class MyApp extends StatelessWidget {
   MyApp({super.key});
-  final PageController _pageController = PageController(initialPage: 0);
 
   @override
   Widget build(BuildContext context) {
@@ -22,9 +21,7 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => EventProvider(),
       child: MaterialApp(
-        home: PageViewWidget(
-          pageController: _pageController,
-        ),
+        home: PageViewWidget(),
         debugShowCheckedModeBanner: false,
         localizationsDelegates: const [
           GlobalMaterialLocalizations.delegate,
@@ -241,9 +238,7 @@ class MyApp extends StatelessWidget {
               labelMedium:
                   GoogleFonts.poppins(fontSize: 16, color: Colors.white),
               labelSmall: GoogleFonts.poppins(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.white),
+                  fontSize: 12, fontWeight: FontWeight.w500, color: grey),
             ),
             //
             //             === COLOR_SCHEME ===
