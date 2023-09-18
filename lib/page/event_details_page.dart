@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:home_cut/model/event.dart';
+import 'package:home_cut/provider/event_provider.dart';
 import 'package:home_cut/provider/page_controller_provider.dart';
 import 'package:home_cut/utils.dart';
 import 'package:home_cut/widget/layout/basic_app_bar.dart';
@@ -55,11 +56,13 @@ class EventDetailsPage extends StatelessWidget {
     final pageController =
         Provider.of<PageControllerProvider>(context, listen: false)
             .pageController;
+    final eventProvider = Provider.of<EventProvider>(context, listen: false);
 
     return [
       IconButton(
         onPressed: () => {
-          Navigator.of(context).pop(),
+          eventProvider.setSelectedEvent = event,
+          Navigator.of(context).popUntil((route) => route.isFirst),
           Future.delayed(
               Duration(milliseconds: 300),
               () => pageController.animateToPage(

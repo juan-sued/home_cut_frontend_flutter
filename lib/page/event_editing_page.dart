@@ -10,16 +10,14 @@ import 'package:provider/provider.dart';
 class EventEditingPage extends StatefulWidget {
   const EventEditingPage({
     Key? key,
-    this.event,
   }) : super(key: key);
-
-  final Event? event;
 
   @override
   State<EventEditingPage> createState() => _EventEditingPageState();
 }
 
 class _EventEditingPageState extends State<EventEditingPage> {
+  late Event? event;
   final _formKey = GlobalKey<FormState>();
   final titleController = TextEditingController();
   late DateTime fromDate;
@@ -28,10 +26,20 @@ class _EventEditingPageState extends State<EventEditingPage> {
   @override
   void initState() {
     super.initState();
+    final eventProvider = Provider.of<EventProvider>(context, listen: false);
 
-    if (widget.event == null) {
+    event = eventProvider.selectedEvent;
+
+    if (event == null) {
+      print('criando evento');
+
       fromDate = DateTime.now();
       toDate = DateTime.now().add(const Duration(hours: 1));
+    } else {
+      print('Editando evento');
+
+      fromDate = event!.from;
+      toDate = event!.to;
     }
   }
 
@@ -255,11 +263,12 @@ class _EventEditingPageState extends State<EventEditingPage> {
         isAllDay: false,
       );
 
-      final provider = Provider.of<EventProvider>(context, listen: false);
+      final eventProvider = Provider.of<EventProvider>(context, listen: false);
       final pageController =
           Provider.of<PageControllerProvider>(context, listen: false)
               .pageController;
-      provider.addEvent(event);
+      eventProvider.addEvent = event;
+      eventProvider.setSelectedEvent = null;
 
       pageController.animateToPage(
         0,

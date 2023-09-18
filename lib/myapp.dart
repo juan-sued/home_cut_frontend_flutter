@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           useMaterial3: true,
           brightness: Brightness.light,
-          tooltipTheme: const TooltipThemeData(
+          tooltipTheme: TooltipThemeData(
             verticalOffset: 48,
             height: 50,
           ),
@@ -46,7 +46,7 @@ class MyApp extends StatelessWidget {
               backgroundColor: brownLight),
           scaffoldBackgroundColor: brownLight,
           buttonTheme: ButtonThemeData(buttonColor: dark),
-          primarySwatch: const MaterialColor(0xFFDCC5AD, {
+          primarySwatch: MaterialColor(0xFFDCC5AD, {
             50: Color(0xFFFFF7F2),
             100: Color(0xFFFFE0CC),
             200: Color(0xFFFFC29A),
@@ -127,7 +127,7 @@ class MyApp extends StatelessWidget {
                   blurRadius: 10, // Define o raio do desfoque da sombra
                   color:
                       Colors.black.withOpacity(0.1), // Define a cor da sombra
-                  offset: const Offset(2, 2), // Define o deslocamento da sombra
+                  offset: Offset(2, 2), // Define o deslocamento da sombra
                 ),
                 Shadow(
                   blurRadius: 10,

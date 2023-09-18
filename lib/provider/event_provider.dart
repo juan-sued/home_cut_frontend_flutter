@@ -14,7 +14,16 @@ class EventProvider extends ChangeNotifier {
 
   List<Event> get eventsOfSelectedDate => _events;
 
-  void addEvent(Event event) {
+  Event? _selectedEvent;
+
+  Event? get selectedEvent => _selectedEvent;
+
+  set setSelectedEvent(Event? event) {
+    _selectedEvent = event;
+    notifyListeners();
+  }
+
+  set addEvent(Event event) {
     _events.add(event);
 
     notifyListeners();
