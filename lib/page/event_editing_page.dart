@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:home_cut/model/event.dart';
+import 'package:home_cut/model/newEvent.dart';
 import 'package:home_cut/provider/event_provider.dart';
 import 'package:home_cut/provider/page_controller_provider.dart';
 import 'package:home_cut/utils.dart';
@@ -17,30 +18,44 @@ class EventEditingPage extends StatefulWidget {
 }
 
 class _EventEditingPageState extends State<EventEditingPage> {
-  late Event? event;
+  late dynamic event;
   final _formKey = GlobalKey<FormState>();
   final titleController = TextEditingController();
-  late DateTime fromDate;
-  late DateTime toDate;
-
+  DateTime fromDate = DateTime.now();
+  DateTime toDate = DateTime.now().add(const Duration(hours: 1));
+  late bool isEditing;
+  late EventProvider eventProvider;
   @override
   void initState() {
     super.initState();
-    final eventProvider = Provider.of<EventProvider>(context, listen: false);
+    eventProvider = Provider.of<EventProvider>(context, listen: false);
+    isEditing = eventProvider.selectedEvent is Event;
 
-    event = eventProvider.selectedEvent;
-
-    if (event == null) {
-      print('criando evento');
-
-      fromDate = DateTime.now();
-      toDate = DateTime.now().add(const Duration(hours: 1));
+    if (isEditing) {
+      //Editando evento
+      event = eventProvider.selectedEvent;
+      titleController.text = event.title;
+      fromDate = event.from;
+      toDate = event.to;
     } else {
-      print('Editando evento');
-
-      fromDate = event!.from;
-      toDate = event!.to;
+      //criando evento
+      event = NewEvent(
+        title: '',
+        description: '',
+        from: fromDate,
+        to: toDate,
+      );
     }
+  }
+
+  void didChangeDependencies() {
+    /// Este método é chamado quando as dependências do widget mudam.
+    super.didChangeDependencies();
+
+    Future.microtask(() {
+      // Coloca a execução desta tarefa no final da fila de microtarefas.
+      eventProvider.setSelectedEvent = null;
+    });
   }
 
   @override
@@ -83,7 +98,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
                     tooltipMessage: 'Criar agendamento',
                     isIconLeft: true,
                     icon: Icons.calendar_month_rounded,
-                    onPressed: saveForm,
+                    onPressed: () => saveForm(isEditing: isEditing),
                   ),
                 ],
               ),
@@ -91,6 +106,58 @@ class _EventEditingPageState extends State<EventEditingPage> {
           ),
         ),
       ),
+    );
+  }
+
+  Future saveForm({bool isEditing = false}) async {
+    final isNotValid = !_formKey.currentState!.validate();
+    if (isNotValid) return null;
+
+    if (isEditing) {
+      event = Event(
+          id: event.id,
+          title: titleController.text,
+          from: fromDate,
+          to: toDate,
+          description: 'Descrição',
+          isAllDay: false,
+          idClient: event.idClient);
+    } else {
+      event = NewEvent(
+          title: titleController.text,
+          description: 'Mock Descrição',
+          from: fromDate,
+          isAllDay: false,
+          to: toDate);
+    }
+
+    //init loading
+    //TODO
+    // -- enviar uma requisição para o backend passando event
+    //requisição retorna 200 com id e clientId
+    if (event is NewEvent) {
+      event = Event(
+          id: 'id_asdasdasd_211e32_123',
+          title: event.title,
+          description: event.description,
+          from: event.from,
+          to: event.to,
+          idClient: 'id_acryqws_12312312_123');
+    }
+
+    if (isEditing) {
+      eventProvider.editEvent(event);
+    } else {
+      eventProvider.addEvent(event);
+    }
+
+    final pageController =
+        Provider.of<PageControllerProvider>(context, listen: false)
+            .pageController;
+    pageController.animateToPage(
+      0,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
     );
   }
 
@@ -248,33 +315,6 @@ class _EventEditingPageState extends State<EventEditingPage> {
       final time = Duration(hours: timeOfDay.hour, minutes: timeOfDay.minute);
 
       return date.add(time);
-    }
-  }
-
-  Future saveForm() async {
-    final isValid = _formKey.currentState!.validate();
-
-    if (isValid) {
-      final event = Event(
-        title: titleController.text,
-        from: fromDate,
-        to: toDate,
-        description: 'Descrição',
-        isAllDay: false,
-      );
-
-      final eventProvider = Provider.of<EventProvider>(context, listen: false);
-      final pageController =
-          Provider.of<PageControllerProvider>(context, listen: false)
-              .pageController;
-      eventProvider.addEvent = event;
-      eventProvider.setSelectedEvent = null;
-
-      pageController.animateToPage(
-        0,
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeInOut,
-      );
     }
   }
 }

@@ -23,8 +23,16 @@ class EventProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  set addEvent(Event event) {
+  void addEvent(Event event) {
     _events.add(event);
+
+    notifyListeners();
+  }
+
+  void editEvent(Event newEvent) {
+    final index = _events.indexWhere((event) => event.id == newEvent.id);
+
+    _events[index] = newEvent;
 
     notifyListeners();
   }
