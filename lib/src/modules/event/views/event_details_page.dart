@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:home_cut/model/event.dart';
 import 'package:home_cut/provider/event_provider.dart';
 import 'package:home_cut/provider/page_controller_provider.dart';
+import 'package:home_cut/src/modules/event/models/event_model.dart';
 import 'package:home_cut/utils.dart';
-import 'package:home_cut/widget/layout/basic_app_bar.dart';
+import 'package:home_cut/src/modules/event/widgets/basic_app_bar.dart';
 import 'package:provider/provider.dart';
 
 class EventDetailsPage extends StatelessWidget {
-  final Event event;
+  final EventModel event;
 
   const EventDetailsPage({super.key, required this.event});
 
@@ -26,7 +26,7 @@ class EventDetailsPage extends StatelessWidget {
               height: 24,
             ),
             Text(
-              event.description,
+              event.description ?? 'Sem descrição',
               textAlign: TextAlign.start,
               style: TextStyle(fontSize: 18),
             )
@@ -36,7 +36,7 @@ class EventDetailsPage extends StatelessWidget {
     );
   }
 
-  Widget buildDateTime(Event event) => Column(
+  Widget buildDateTime(EventModel event) => Column(
         children: [
           buildDate(
               event.isAllDay ? 'All-day' : 'Início do evento', event.from),
@@ -52,7 +52,7 @@ class EventDetailsPage extends StatelessWidget {
         ),
       );
 
-  List<Widget> buildDetailsAction(BuildContext context, Event event) {
+  List<Widget> buildDetailsAction(BuildContext context, EventModel event) {
     final pageController =
         Provider.of<PageControllerProvider>(context, listen: false)
             .pageController;
@@ -74,11 +74,10 @@ class EventDetailsPage extends StatelessWidget {
         icon: Icon(Icons.edit),
       ),
       IconButton(
-        onPressed: () => pageController.animateToPage(
-          1,
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeInOut,
-        ),
+        onPressed: () => {
+          eventProvider.deleteEvent(event),
+          Navigator.of(context).popUntil((route) => route.isFirst),
+        },
         icon: Icon(Icons.delete_forever_rounded),
       )
     ];

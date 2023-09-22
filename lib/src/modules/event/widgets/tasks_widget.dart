@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:home_cut/page/event_details_page.dart';
+import 'package:home_cut/src/modules/event/views/event_details_page.dart';
 import 'package:home_cut/source/event_data_source.dart';
 import 'package:home_cut/provider/event_provider.dart';
-import 'package:home_cut/widget/service/appointment_builder.dart';
+import 'package:home_cut/widget/shared/appointment_builder.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:syncfusion_flutter_core/theme.dart';

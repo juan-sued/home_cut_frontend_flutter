@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class NewEvent {
+class NewEvent_model {
   final String title;
   final String description;
   final DateTime from;
@@ -8,7 +8,7 @@ class NewEvent {
   final Color backgroundColor;
   final bool isAllDay;
 
-  const NewEvent({
+  const NewEvent_model({
     required this.title,
     required this.description,
     required this.from,

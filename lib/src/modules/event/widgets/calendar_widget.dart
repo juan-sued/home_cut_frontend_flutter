@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:home_cut/page/event_details_page.dart';
-import 'package:home_cut/source/event_data_source.dart';
+
+import 'package:home_cut/src/modules/event/controllers/event_controller.dart';
+import 'package:home_cut/src/modules/event/services/event_service.dart';
+import 'package:home_cut/src/modules/event/services/uno_client.dart';
+import 'package:home_cut/src/modules/event/views/event_details_page.dart';
+import 'package:home_cut/src/modules/event/source/event_data_source.dart';
 import 'package:home_cut/provider/event_provider.dart';
-import 'package:home_cut/widget/service/appointment_builder.dart';
-import 'package:home_cut/widget/tasks_widget.dart';
+import 'package:home_cut/src/modules/event/widgets/appointment_builder.dart';
+import 'package:home_cut/src/modules/event/widgets/tasks_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
-export 'cards_days_widget.dart';
+export '../../../../widget/cards_days_widget.dart';
 
 class CalendarWidget extends StatefulWidget {
   const CalendarWidget({super.key});
@@ -18,11 +22,18 @@ class CalendarWidget extends StatefulWidget {
 class _CalendarWidgetState extends State<CalendarWidget> {
   DateTime _currentDate = DateTime.now();
 
+  final controller = EventController(EventService(UnoClient()));
+
+  @override
+  void initState() {
+    super.initState();
+    controller.getAllEvents();
+  }
+
   @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
-
-    final events = Provider.of<EventProvider>(context).events;
+    final events = controller.events;
 
     return Expanded(
       child: SfCalendar(

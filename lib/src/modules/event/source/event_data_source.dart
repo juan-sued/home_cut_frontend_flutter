@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:home_cut/model/event.dart';
+import 'package:home_cut/src/modules/event/models/event_model.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class EventDataSource extends CalendarDataSource {
-  EventDataSource(List<Event> appointments) {
+  EventDataSource(List<EventModel> appointments) {
     this.appointments = appointments;
   }
 
-  Event getEvent(int index) => appointments![index] as Event;
+  EventModel getEvent(int index) => appointments![index] as EventModel;
 
   @override
   DateTime getStartTime(int index) => getEvent(index).from;

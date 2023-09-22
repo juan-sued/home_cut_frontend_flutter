@@ -1,4 +1,6 @@
 import 'package:intl/intl.dart';
+import 'dart:convert';
+import 'package:crypto/crypto.dart';
 
 class Utils {
   static String toDateTime(DateTime dateTime) {
@@ -15,5 +17,11 @@ class Utils {
   static String toTime(DateTime dateTime) {
     final time = DateFormat.Hm('pt_BR').format(dateTime);
     return time;
+  }
+
+  static String generateRandomMongoId() {
+    var bytes = utf8.encode(DateTime.now().toIso8601String());
+    var digest = sha256.convert(bytes);
+    return digest.toString().substring(0, 24);
   }
 }
