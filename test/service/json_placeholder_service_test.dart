@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:home_cut/service/http_client_interface.dart';
-import 'package:home_cut/service/json_placeholder_service.dart';
+import 'package:home_cut/src/services/event_service.dart';
+import 'package:home_cut/src/services/http_client_interface.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:uno/uno.dart';
 

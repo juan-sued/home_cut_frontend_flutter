@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:home_cut/controllers/home_controller.dart';
-import 'package:home_cut/model/event_model.dart';
-import 'package:home_cut/service/json_placeholder_service.dart';
+import 'package:home_cut/src/models/event_model.dart';
+import 'package:home_cut/src/services/event_service.dart';
+
 import 'package:mocktail/mocktail.dart';
 
 class JsonPlaceholderMock extends Mock implements EventService {}

@@ -1,5 +1,5 @@
-import 'package:home_cut/src/modules/event/models/event_model.dart';
-import 'package:home_cut/src/modules/event/services/http_client_interface.dart';
+import 'package:home_cut/src/models/event_model.dart';
+import 'package:home_cut/src/services/http_client_interface.dart';
 
 const url = 'https://my.api.mockaroo.com/events.json?key=bb2d01e0';
 

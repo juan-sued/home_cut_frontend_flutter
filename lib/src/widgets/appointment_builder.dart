@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:home_cut/provider/event_provider.dart';
-import 'package:home_cut/provider/page_controller_provider.dart';
+import 'package:home_cut/src/provider/event_provider.dart';
+import 'package:home_cut/src/provider/page_controller_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
@@ -10,7 +10,9 @@ Widget appointmentBuilder(
   final pageController =
       Provider.of<PageControllerProvider>(context, listen: false)
           .pageController;
+
   final eventProvider = Provider.of<EventProvider>(context, listen: false);
+
   return GestureDetector(
     onDoubleTap: () => {
       eventProvider.setSelectedEvent = event,

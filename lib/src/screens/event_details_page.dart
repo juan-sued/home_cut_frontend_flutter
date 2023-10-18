@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:home_cut/provider/event_provider.dart';
-import 'package:home_cut/provider/page_controller_provider.dart';
-import 'package:home_cut/src/modules/event/models/event_model.dart';
+import 'package:home_cut/src/provider/event_provider.dart';
+import 'package:home_cut/src/provider/page_controller_provider.dart';
+import 'package:home_cut/src/models/event_model.dart';
 import 'package:home_cut/utils.dart';
-import 'package:home_cut/src/modules/event/widgets/basic_app_bar.dart';
+import 'package:home_cut/src/widgets/basic_app_bar.dart';
 import 'package:provider/provider.dart';
 
 class EventDetailsPage extends StatelessWidget {

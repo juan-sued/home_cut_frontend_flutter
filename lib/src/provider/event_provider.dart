@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:home_cut/src/modules/event/models/event_model.dart';
+import 'package:home_cut/src/models/event_model.dart';
 
 class EventProvider extends ChangeNotifier {
   final List<EventModel> _events = <EventModel>[];
@@ -33,8 +33,19 @@ class EventProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void getAllEvents() {
+    //verificar no back se a lista está atualizada
+    //sim => enviar a lista local
+    //não => enviar a lista vinda do backend
+
+    notifyListeners();
+  }
+
   void editEvent(EventModel newEvent) {
     final index = _events.indexWhere((event) => event.id == newEvent.id);
+
+    print(_events);
+
     _events[index] = newEvent;
     //TODO
     // Enviar requisição para o backend para atualizar o evento

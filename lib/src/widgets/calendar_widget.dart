@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 
-import 'package:home_cut/src/modules/event/controllers/event_controller.dart';
-import 'package:home_cut/src/modules/event/services/event_service.dart';
-import 'package:home_cut/src/modules/event/services/uno_client.dart';
-import 'package:home_cut/src/modules/event/views/event_details_page.dart';
-import 'package:home_cut/src/modules/event/source/event_data_source.dart';
-import 'package:home_cut/provider/event_provider.dart';
-import 'package:home_cut/src/modules/event/widgets/appointment_builder.dart';
-import 'package:home_cut/src/modules/event/widgets/tasks_widget.dart';
+import 'package:home_cut/src/controllers/event_controller.dart';
+import 'package:home_cut/src/services/event_service.dart';
+import 'package:home_cut/src/services/uno_client.dart';
+import 'package:home_cut/src/screens/event_details_page.dart';
+import 'package:home_cut/src/source/event_data_source.dart';
+import 'package:home_cut/src/provider/event_provider.dart';
+import 'package:home_cut/src/widgets/appointment_builder.dart';
+import 'package:home_cut/src/widgets/tasks_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
-export '../../../../widget/cards_days_widget.dart';
+export 'cards_days_widget.dart';
 
 class CalendarWidget extends StatefulWidget {
   const CalendarWidget({super.key});
@@ -34,9 +34,13 @@ class _CalendarWidgetState extends State<CalendarWidget> {
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
     final events = controller.events;
-
+    for (var elemento in events) {
+      print(elemento.title);
+      print(elemento.from);
+    }
     return Expanded(
       child: SfCalendar(
+        dataSource: EventDataSource(events),
         selectionDecoration: BoxDecoration(
           color: theme.colorScheme.secondary.withOpacity(0.1),
           border: Border.all(
@@ -55,7 +59,6 @@ class _CalendarWidgetState extends State<CalendarWidget> {
               context: context, builder: (context) => const TasksWidget());
         },
         appointmentBuilder: appointmentBuilder,
-        dataSource: EventDataSource(events),
         initialSelectedDate: _currentDate,
         cellBorderColor: Colors.transparent,
         cellEndPadding: 5,

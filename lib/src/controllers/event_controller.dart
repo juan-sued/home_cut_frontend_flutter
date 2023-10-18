@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:home_cut/src/modules/event/models/event_model.dart';
-import 'package:home_cut/src/modules/event/services/event_service.dart';
+import 'package:home_cut/src/models/event_model.dart';
+import 'package:home_cut/src/services/event_service.dart';
 
 class EventController extends ChangeNotifier {
   final EventService _service;

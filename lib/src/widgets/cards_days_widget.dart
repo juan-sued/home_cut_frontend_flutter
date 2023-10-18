@@ -29,7 +29,8 @@ class _CardsDaysWidgetState extends State<CardsDaysWidget> {
   Widget build(BuildContext context) {
     if (listDays.isEmpty || DateTime.now().toUtc().hour == 0) _updateDates();
 
-    return SizedBox(
+    return Container(
+      decoration: BoxDecoration(color: Colors.transparent),
       width: double.infinity,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

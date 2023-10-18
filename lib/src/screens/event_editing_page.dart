@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:home_cut/provider/event_provider.dart';
-import 'package:home_cut/provider/page_controller_provider.dart';
-import 'package:home_cut/src/modules/event/models/event_model.dart';
-import 'package:home_cut/src/modules/event/models/newEvent_model.dart';
-import 'package:home_cut/src/modules/event/widgets/TextFormField.dart';
-import 'package:home_cut/src/modules/event/widgets/buildDropdownField.dart';
-import 'package:home_cut/src/modules/event/widgets/buildHeader.dart';
-import 'package:home_cut/src/modules/event/widgets/pickDateTime.dart';
-import 'package:home_cut/src/modules/event/widgets/snackbar_widget.dart';
+import 'package:home_cut/src/provider/event_provider.dart';
+import 'package:home_cut/src/provider/page_controller_provider.dart';
+import 'package:home_cut/src/models/event_model.dart';
+import 'package:home_cut/src/models/newEvent_model.dart';
+import 'package:home_cut/src/widgets/TextFormField.dart';
+import 'package:home_cut/src/widgets/buildDropdownField.dart';
+import 'package:home_cut/src/widgets/buildHeader.dart';
+import 'package:home_cut/src/widgets/pickDateTime.dart';
+import 'package:home_cut/src/widgets/snackbar_widget.dart';
 import 'package:home_cut/utils.dart';
-import 'package:home_cut/src/modules/event/widgets/basic_app_bar.dart';
-
-import 'package:home_cut/src/modules/event/widgets/button_with_icon.dart';
-
+import 'package:home_cut/src/widgets/basic_app_bar.dart';
+import 'package:home_cut/src/widgets/button_with_icon.dart';
 import 'package:provider/provider.dart';
 
 class EventEditingPage extends StatelessWidget {
@@ -49,7 +47,6 @@ class EventEditingPage extends StatelessWidget {
 
     Future<void> saveForm({bool isEditing = false}) async {
       if (!_formKey.currentState!.validate()) return;
-
       if (isEditing) {
         event = EventModel(
             id: event.id,

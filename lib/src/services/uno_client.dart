@@ -1,4 +1,4 @@
-import 'package:home_cut/src/modules/event/services/http_client_interface.dart';
+import 'package:home_cut/src/services/http_client_interface.dart';
 import 'package:uno/uno.dart';
 
 class UnoClient implements IHttpClient {
