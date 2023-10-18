@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:home_cut/src/controllers/event_controller.dart';
 import 'package:home_cut/src/models/event_model.dart';
+import 'package:home_cut/src/services/event_service.dart';
+import 'package:home_cut/src/services/uno_client.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 
 class EventProvider extends ChangeNotifier {
   final List<EventModel> _events = <EventModel>[];
@@ -23,20 +27,27 @@ class EventProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<List<EventModel>> getAllEvents() async {
+    ConnectivityResult connectivityResult =
+        await Connectivity().checkConnectivity();
+
+    if (connectivityResult == ConnectivityResult.none) {
+      return events;
+    } else {
+      final controller = EventController(EventService(UnoClient()));
+      await controller.getUpdateEvents();
+      notifyListeners();
+    }
+
+    return events;
+  }
+
   void addEvent(EventModel event) {
     _events.add(event);
 
     //TODO
     // Enviar requisição para o backend para salvar o novo evento
     // Aguardar resposta do backend com o ID gerado para o novo evento
-
-    notifyListeners();
-  }
-
-  void getAllEvents() {
-    //verificar no back se a lista está atualizada
-    //sim => enviar a lista local
-    //não => enviar a lista vinda do backend
 
     notifyListeners();
   }
