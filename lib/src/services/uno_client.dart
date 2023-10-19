@@ -6,8 +6,11 @@ class UnoClient implements IHttpClient {
 
   @override
   Future<dynamic> get(String url) async {
-    final response = await uno.get(url);
-    //TODO: criar tratemento de erro
-    return response.data;
+    try {
+      final response = await uno.get(url);
+      return response.data;
+    } on UnoError catch (e) {
+      throw e;
+    }
   }
 }

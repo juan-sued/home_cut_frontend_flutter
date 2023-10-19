@@ -12,6 +12,12 @@ class PageViewWidget extends StatelessWidget {
     final pageController =
         Provider.of<PageControllerProvider>(context, listen: false)
             .pageController;
+
+    pageController.addListener(() {
+      // Aqui, quando a página mudar, você pode ocultar o SnackBar.
+      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    });
+
     return PageView(
       controller: pageController,
       children: [HomePage(), EventEditingPage()],

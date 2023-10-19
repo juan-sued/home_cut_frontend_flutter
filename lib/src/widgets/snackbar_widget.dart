@@ -43,9 +43,7 @@ class CustomSnackBar {
           label: actionLabel,
           textColor: textColor,
           onPressed: onPressed ??
-              () {
-                ScaffoldMessenger.of(context).hideCurrentSnackBar();
-              },
+              () => ScaffoldMessenger.of(context).hideCurrentSnackBar(),
         ),
         backgroundColor: backgroundColor,
       ),

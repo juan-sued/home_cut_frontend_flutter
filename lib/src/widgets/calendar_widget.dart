@@ -23,12 +23,10 @@ class _CalendarWidgetState extends State<CalendarWidget> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<EventModel>>(
-      future: Provider.of<EventProvider>(context).getAllEvents(),
+      future: Provider.of<EventProvider>(context).getAllEvents(context),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator(); // Mostra um indicador de carregamento enquanto espera a conclusão da chamada assíncrona.
-        } else if (snapshot.hasError) {
-          return Text('Erro ao carregar eventos: ${snapshot.error}');
+          return CircularProgressIndicator();
         } else if (snapshot.hasData) {
           final events = snapshot.data!;
           for (var elemento in events) {
