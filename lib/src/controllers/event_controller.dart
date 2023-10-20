@@ -8,12 +8,8 @@ class EventController extends ChangeNotifier {
 
   EventController(this._service);
 
-  var events = <EventModel>[];
-
-  Future<void> getUpdateEvents() async {
-    events = await _service.getEvents();
-
-    notifyListeners();
+  Future<List<EventModel>> getUpdateEvents() async {
+    return await _service.getEvents();
   }
 
   void dispose() {

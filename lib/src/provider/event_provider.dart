@@ -4,10 +4,9 @@ import 'package:home_cut/src/models/event_model.dart';
 import 'package:home_cut/src/services/event_service.dart';
 import 'package:home_cut/src/services/uno_client.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:home_cut/src/widgets/snackbar_widget.dart';
 
 class EventProvider extends ChangeNotifier {
-  final List<EventModel> _events = <EventModel>[];
+  List<EventModel> _events = <EventModel>[];
 
   List<EventModel> get events => _events;
 
@@ -32,19 +31,13 @@ class EventProvider extends ChangeNotifier {
     ConnectivityResult connectivityResult =
         await Connectivity().checkConnectivity();
 
-    if (connectivityResult == ConnectivityResult.none) {
-      return events;
-    } else {
+    if (connectivityResult != ConnectivityResult.none) {
       try {
         final controller = EventController(EventService(UnoClient()));
-        await controller.getUpdateEvents();
+        List<EventModel> eventsUpdateds = await controller.getUpdateEvents();
+        _events = eventsUpdateds;
         notifyListeners();
       } catch (e) {
-        CustomSnackBar.show(
-            context: context,
-            message: 'Não foi possivel concluir a solicitação $e',
-            type: 'error');
-
         return events;
       }
     }

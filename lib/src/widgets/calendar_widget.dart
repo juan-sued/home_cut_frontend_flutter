@@ -7,7 +7,6 @@ import 'package:home_cut/src/widgets/appointment_builder.dart';
 import 'package:home_cut/src/widgets/tasks_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
-
 export 'cards_days_widget.dart';
 
 class CalendarWidget extends StatefulWidget {
@@ -22,11 +21,17 @@ class _CalendarWidgetState extends State<CalendarWidget> {
 
   @override
   Widget build(BuildContext context) {
+    ColorScheme colorTheme = Theme.of(context).colorScheme;
+
     return FutureBuilder<List<EventModel>>(
       future: Provider.of<EventProvider>(context).getAllEvents(context),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator();
+          return Container(
+              margin: EdgeInsets.only(top: 80),
+              child: CircularProgressIndicator(
+                color: colorTheme.tertiary,
+              ));
         } else if (snapshot.hasData) {
           final events = snapshot.data!;
           for (var elemento in events) {
@@ -37,9 +42,9 @@ class _CalendarWidgetState extends State<CalendarWidget> {
             child: SfCalendar(
               dataSource: EventDataSource(events),
               selectionDecoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.secondary.withOpacity(0.1),
+                color: colorTheme.secondary.withOpacity(0.1),
                 border: Border.all(
-                  color: Theme.of(context).colorScheme.secondary,
+                  color: colorTheme.secondary,
                   width: 1,
                 ),
                 borderRadius: const BorderRadius.all(Radius.circular(12)),
@@ -61,15 +66,15 @@ class _CalendarWidgetState extends State<CalendarWidget> {
               cellEndPadding: 5,
               viewHeaderHeight: 0,
               headerHeight: 0,
-              todayHighlightColor: Theme.of(context).colorScheme.tertiary,
+              todayHighlightColor: colorTheme.tertiary,
               showCurrentTimeIndicator: true,
               timeSlotViewSettings: TimeSlotViewSettings(
-                  allDayPanelColor: Theme.of(context).colorScheme.secondary,
+                  allDayPanelColor: colorTheme.secondary,
                   timeFormat: 'HH:mm',
                   timeIntervalHeight: 150,
                   timeTextStyle:
                       Theme.of(context).textTheme.labelMedium!.copyWith(
-                    color: Theme.of(context).colorScheme.secondary,
+                    color: colorTheme.secondary,
                     shadows: [
                       Shadow(
                         blurRadius: 3.0,
