@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:home_cut/src/screens/event_details_page.dart';
 import 'package:home_cut/src/source/event_data_source.dart';
 import 'package:home_cut/src/provider/event_provider.dart';
-import 'package:home_cut/src/widgets/appointment_builder.dart';
+import 'package:home_cut/src/widgets/calendar/appointment_builder.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:syncfusion_flutter_core/theme.dart';

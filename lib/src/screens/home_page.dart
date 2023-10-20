@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:home_cut/src/widgets/bottom_bar_buttons.dart';
-import 'package:home_cut/src/widgets/calendar_widget.dart';
+import 'package:home_cut/src/widgets/calendar/calendar_widget.dart';
 import 'package:home_cut/src/widgets/popup_menu_entry/popup_menu_widget.dart';
 
 class HomePage extends StatelessWidget {
